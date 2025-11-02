@@ -9,7 +9,7 @@ export function SplashScreen() {
         <div className="inline-block">
           <Logo />
         </div>
-        <p className="text-sm text-muted-foreground mt-2">Made by Gaurav</p>
+        <p className="text-xs text-muted-foreground/80 mt-1">Made by Gaurav</p>
       </div>
     </div>
   );
