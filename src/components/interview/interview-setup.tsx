@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { Label } from '../ui/label';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
@@ -69,13 +69,12 @@ export function InterviewSetup({
           </div>
         </div>
 
-        <div className="flex items-center text-muted-foreground">
-          <Separator className="flex-grow" />
-          <span className="mx-4 text-sm">{t('createCustomInterview')}</span>
-          <Separator className="flex-grow" />
-        </div>
-
+        <Separator className="my-6" />
+        
         <div>
+          <Label className="text-center text-xl font-semibold mb-6 text-foreground block">
+            {t('createCustomInterview')}
+          </Label>
           <div className="flex flex-col sm:flex-row gap-3">
             <Input
               type="text"
@@ -95,7 +94,7 @@ export function InterviewSetup({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
           <div>
             <Label className="font-semibold text-base mb-3 block">
               {t('difficulty')}
