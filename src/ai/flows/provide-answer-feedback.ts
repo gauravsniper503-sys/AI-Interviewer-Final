@@ -54,10 +54,10 @@ const provideAnswerFeedbackPrompt = ai.definePrompt({
   Answer: {{answer}}
 
   Your task is to provide two things in the output:
-  1.  **feedback**: Constructive feedback on the user's answer. Highlight what was good in the answer and suggest how to improve it for real interviews. Be clear, constructive, and professional.
-  2.  **suggestedAnswer**: A well-structured, ideal answer to the question. This should serve as a model for the user to learn from.
+  1.  **feedback**: Constructive feedback on the user's answer. Highlight what was good and suggest improvements. Be clear, constructive, professional, and concise. Keep the feedback to 2-3 sentences.
+  2.  **suggestedAnswer**: A well-structured, ideal answer to the question. This should serve as a model for the user to learn from. Keep it brief and to the point.
 
-  Generate the feedback and the suggested answer based on the provided question and answer.
+  Generate the feedback and the suggested answer based on the provided question and answer. Both should be short.
   `,
 });
 
