@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Logo } from '@/components/logo';
-import { ArrowRight, Home, Loader2, Sparkles, Terminal, BookCheck } from 'lucide-react';
+import { ArrowRight, Home, Loader2, Sparkles, Terminal, BookCheck, Mic } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { LanguageSwitcher } from '../language-switcher';
 import { Badge } from '../ui/badge';
@@ -260,14 +260,20 @@ const InProgressView: FC<{
       <p className="text-lg md:text-xl font-medium text-center leading-relaxed">
         {question}
       </p>
-      <Textarea
-        placeholder={t('typeAnswer')}
-        value={currentAnswer}
-        onChange={(e) => setCurrentAnswer(e.target.value)}
-        rows={8}
-        className="text-base"
-        autoFocus
-      />
+      <div className="space-y-2">
+        <Textarea
+          placeholder={t('typeAnswer')}
+          value={currentAnswer}
+          onChange={(e) => setCurrentAnswer(e.target.value)}
+          rows={8}
+          className="text-base"
+          autoFocus
+        />
+        <p className="text-xs text-muted-foreground flex items-center gap-1.5">
+          <Mic className="w-3 h-3" />
+          {t('voiceHint')}
+        </p>
+      </div>
       <div className="flex justify-end">
         <Button onClick={handleNextQuestion} size="lg">
           {questionNumber === totalQuestions ? t('finishAndGetFeedback') : t('nextQuestion')}

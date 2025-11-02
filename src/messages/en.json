@@ -37,5 +37,6 @@
   "hard": "Hard",
   "numberOfQuestions": "Number of Questions",
   "custom": "Custom",
-  "suggestedAnswer": "Suggested Answer"
+  "suggestedAnswer": "Suggested Answer",
+  "voiceHint": "Tip: Use your phone's voice-to-type keyboard feature to speak your answer."
 }
