@@ -73,7 +73,7 @@ export function InterviewSetup({
 
         <div>
           <Label className="text-center text-xl font-semibold mb-6 text-foreground block">
-            {t('createCustomInterview')}
+            {t('createPersonalizedInterview')}
           </Label>
           <div className="flex flex-col sm:flex-row gap-3">
             <Input
