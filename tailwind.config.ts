@@ -20,6 +20,8 @@ export default {
         body: ['Inter', 'sans-serif'],
         headline: ['"Space Grotesk"', 'sans-serif'],
         code: ['monospace'],
+        hi: ['"Baloo 2"', 'sans-serif'],
+        mr: ['"Noto Sans"', 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',

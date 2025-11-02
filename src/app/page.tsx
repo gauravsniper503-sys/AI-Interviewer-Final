@@ -7,9 +7,10 @@ import { useLanguage } from '@/context/language-context';
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { SplashScreen } from '@/components/splash-screen';
+import { cn } from '@/lib/utils';
 
 export default function Home() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -29,6 +30,13 @@ export default function Home() {
     return <SplashScreen />;
   }
 
+  const welcomeFontClass =
+    language === 'hi'
+      ? 'font-hi'
+      : language === 'mr'
+      ? 'font-mr'
+      : 'font-headline';
+
   return (
     <main className="flex flex-col min-h-screen bg-background p-4 sm:p-6 lg:p-8 animate-fade-in">
       <header className="flex justify-between items-center w-full max-w-7xl mx-auto">
@@ -44,7 +52,12 @@ export default function Home() {
             <div className="inline-flex items-center justify-center bg-primary text-primary-foreground p-4 rounded-full mb-6 shadow-lg">
               <Bot className="w-12 h-12" />
             </div>
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground font-headline tracking-tight">
+            <h1
+              className={cn(
+                'text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight',
+                welcomeFontClass
+              )}
+            >
               {t('welcome')}
             </h1>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
