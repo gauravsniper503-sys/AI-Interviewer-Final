@@ -1,0 +1,48 @@
+'use server';
+
+import {
+  generateInterviewQuestions,
+  type GenerateInterviewQuestionsOutput,
+} from '@/ai/flows/generate-interview-questions';
+import {
+  provideAnswerFeedback,
+  type ProvideAnswerFeedbackOutput,
+} from '@/ai/flows/provide-answer-feedback';
+
+export async function startInterviewAction(
+  interviewType: string
+): Promise<GenerateInterviewQuestionsOutput> {
+  try {
+    const response = await generateInterviewQuestions({
+      interviewType,
+      numberOfQuestions: 8,
+    });
+    return response;
+  } catch (error) {
+    console.error('Error starting interview:', error);
+    // This will be caught by the client
+    throw new Error('Failed to generate interview questions.');
+  }
+}
+
+export async function getFeedbackAction(
+  question: string,
+  answer: string,
+  interviewType: string
+): Promise<{ question: string; answer: string; feedback: string }> {
+  try {
+    const response = await provideAnswerFeedback({
+      question,
+      answer,
+      interviewType,
+    });
+    return {
+      question,
+      answer,
+      feedback: response.feedback,
+    };
+  } catch (error) {
+    console.error('Error getting feedback:', error);
+    throw new Error('Failed to generate feedback for the answer.');
+  }
+}
