@@ -35,5 +35,6 @@
   "medium": "मध्यम",
   "hard": "कठिन",
   "numberOfQuestions": "प्रश्नों की संख्या",
-  "custom": "कस्टम"
+  "custom": "कस्टम",
+  "suggestedAnswer": "सुझाया गया उत्तर"
 }

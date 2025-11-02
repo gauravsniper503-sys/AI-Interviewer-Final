@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Logo } from '@/components/logo';
-import { ArrowRight, Home, Loader2, Sparkles, Terminal } from 'lucide-react';
+import { ArrowRight, Home, Loader2, Sparkles, Terminal, BookCheck } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { LanguageSwitcher } from '../language-switcher';
 import { Badge } from '../ui/badge';
@@ -38,6 +38,7 @@ type FeedbackResult = {
   question: string;
   answer: string;
   feedback: string;
+  suggestedAnswer: string;
 };
 
 export default function InterviewClient({
@@ -316,6 +317,14 @@ const ResultsView: FC<{
               </h4>
               <div className="p-4 border-l-4 border-accent bg-accent/10 rounded-r-md whitespace-pre-wrap">
                 {result.feedback}
+              </div>
+            </div>
+             <div>
+              <h4 className="font-semibold text-green-500 mb-2 flex items-center gap-2">
+                <BookCheck className="w-5 h-5" /> {t('suggestedAnswer')}:
+              </h4>
+              <div className="p-4 border-l-4 border-green-500 bg-green-500/10 rounded-r-md whitespace-pre-wrap">
+                {result.suggestedAnswer}
               </div>
             </div>
           </AccordionContent>

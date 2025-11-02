@@ -13,7 +13,7 @@ import {z} from 'genkit';
 
 const ProvideAnswerFeedbackInputSchema = z.object({
   question: z.string().describe('The interview question asked.'),
-  answer: z.string().describe('The user\u2019s answer to the question.'),
+  answer: z.string().describe('The user’s answer to the question.'),
   interviewType: z.string().describe('The type of interview being conducted.'),
 });
 export type ProvideAnswerFeedbackInput = z.infer<
@@ -21,7 +21,16 @@ export type ProvideAnswerFeedbackInput = z.infer<
 >;
 
 const ProvideAnswerFeedbackOutputSchema = z.object({
-  feedback: z.string().describe('Constructive feedback on the user\u2019s answer.'),
+  feedback: z
+    .string()
+    .describe(
+      'Constructive feedback on the user’s answer, highlighting strengths and areas for improvement.'
+    ),
+  suggestedAnswer: z
+    .string()
+    .describe(
+      'An ideal or correct answer to the interview question for user reference.'
+    ),
 });
 export type ProvideAnswerFeedbackOutput = z.infer<
   typeof ProvideAnswerFeedbackOutputSchema
@@ -44,8 +53,11 @@ const provideAnswerFeedbackPrompt = ai.definePrompt({
   Question: {{question}}
   Answer: {{answer}}
 
-  Provide constructive feedback, highlighting strengths, weaknesses, and suggestions for improvement. Be clear, constructive, and professional.
-  Highlight what was good in the answer. Suggest how to improve it for real interviews.
+  Your task is to provide two things in the output:
+  1.  **feedback**: Constructive feedback on the user's answer. Highlight what was good in the answer and suggest how to improve it for real interviews. Be clear, constructive, and professional.
+  2.  **suggestedAnswer**: A well-structured, ideal answer to the question. This should serve as a model for the user to learn from.
+
+  Generate the feedback and the suggested answer based on the provided question and answer.
   `,
 });
 

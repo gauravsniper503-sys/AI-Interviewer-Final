@@ -35,5 +35,6 @@
   "medium": "Medium",
   "hard": "Hard",
   "numberOfQuestions": "Number of Questions",
-  "custom": "Custom"
+  "custom": "Custom",
+  "suggestedAnswer": "Suggested Answer"
 }

@@ -27,7 +27,12 @@ export async function getFeedbackAction(
   question: string,
   answer: string,
   interviewType: string
-): Promise<{ question: string; answer: string; feedback: string }> {
+): Promise<{
+  question: string;
+  answer: string;
+  feedback: string;
+  suggestedAnswer: string;
+}> {
   try {
     const response = await provideAnswerFeedback({
       question,
@@ -38,6 +43,7 @@ export async function getFeedbackAction(
       question,
       answer,
       feedback: response.feedback,
+      suggestedAnswer: response.suggestedAnswer,
     };
   } catch (error) {
     console.error('Error getting feedback:', error);
