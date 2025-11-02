@@ -40,7 +40,7 @@ export default function Home() {
         </div>
       </div>
       <footer className="text-center p-4 mt-8 text-muted-foreground text-sm">
-        © {new Date().getFullYear()} InterviewAce. {t('allRightsReserved')}
+        © {new Date().getFullYear()} Interview Pro. {t('allRightsReserved')}
       </footer>
     </main>
   );

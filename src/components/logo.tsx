@@ -7,7 +7,7 @@ export function Logo() {
         <Bot className="w-6 h-6" />
       </div>
       <h1 className="text-2xl font-bold text-foreground font-headline tracking-tight">
-        InterviewAce
+        Interview Pro
       </h1>
     </div>
   );

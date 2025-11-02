@@ -5,7 +5,7 @@ import { LanguageProvider } from '@/context/language-context';
 import { ThemeProvider } from '@/context/theme-context';
 
 export const metadata: Metadata = {
-  title: 'InterviewAce',
+  title: 'Interview Pro',
   description: 'Sharpen your interview skills with AI.',
 };
 
