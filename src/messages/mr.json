@@ -30,5 +30,11 @@
   "errorOccurred": "एक त्रुटी आली",
   "tryAgain": "पुन्हा प्रयत्न करा",
   "emptyAnswer": "रिक्त उत्तर",
-  "provideAnswer": "कृपया पुढे जाण्यापूर्वी उत्तर द्या."
+  "provideAnswer": "कृपया पुढे जाण्यापूर्वी उत्तर द्या.",
+  "difficulty": "काठीण्य",
+  "low": "सोपे",
+  "medium": "मध्यम",
+  "hard": "कठीण",
+  "numberOfQuestions": "प्रश्नांची संख्या",
+  "custom": "सानुकूल"
 }

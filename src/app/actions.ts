@@ -3,6 +3,7 @@
 import {
   generateInterviewQuestions,
   type GenerateInterviewQuestionsOutput,
+  type GenerateInterviewQuestionsInput,
 } from '@/ai/flows/generate-interview-questions';
 import {
   provideAnswerFeedback,
@@ -10,13 +11,10 @@ import {
 } from '@/ai/flows/provide-answer-feedback';
 
 export async function startInterviewAction(
-  interviewType: string
+  params: GenerateInterviewQuestionsInput
 ): Promise<GenerateInterviewQuestionsOutput> {
   try {
-    const response = await generateInterviewQuestions({
-      interviewType,
-      numberOfQuestions: 8,
-    });
+    const response = await generateInterviewQuestions(params);
     return response;
   } catch (error) {
     console.error('Error starting interview:', error);

@@ -30,5 +30,11 @@
   "errorOccurred": "An Error Occurred",
   "tryAgain": "Try Again",
   "emptyAnswer": "Empty Answer",
-  "provideAnswer": "Please provide an answer before proceeding."
+  "provideAnswer": "Please provide an answer before proceeding.",
+  "difficulty": "Difficulty",
+  "low": "Low",
+  "medium": "Medium",
+  "hard": "Hard",
+  "numberOfQuestions": "Number of Questions",
+  "custom": "Custom"
 }

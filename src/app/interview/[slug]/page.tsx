@@ -4,13 +4,27 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Logo } from '@/components/logo';
 
-export default function InterviewPage({ params }: { params: { slug: string } }) {
+export default function InterviewPage({
+  params,
+  searchParams,
+}: {
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const interviewType = decodeURIComponent(params.slug);
+  const difficulty = (searchParams?.difficulty as string) || 'Medium';
+  const numberOfQuestions = searchParams?.questions
+    ? parseInt(searchParams.questions as string, 10)
+    : 8;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Suspense fallback={<InterviewSkeleton />}>
-        <InterviewClient interviewType={interviewType} />
+        <InterviewClient
+          interviewType={interviewType}
+          difficulty={difficulty}
+          numberOfQuestions={numberOfQuestions}
+        />
       </Suspense>
     </div>
   );

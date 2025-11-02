@@ -24,6 +24,7 @@ import { Logo } from '@/components/logo';
 import { ArrowRight, Home, Loader2, Sparkles, Terminal } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { LanguageSwitcher } from '../language-switcher';
+import { Badge } from '../ui/badge';
 
 type InterviewState =
   | 'LOADING_QUESTIONS'
@@ -40,8 +41,12 @@ type FeedbackResult = {
 
 export default function InterviewClient({
   interviewType,
+  difficulty,
+  numberOfQuestions,
 }: {
   interviewType: string;
+  difficulty: string;
+  numberOfQuestions: number;
 }) {
   const [interviewState, setInterviewState] =
     useState<InterviewState>('LOADING_QUESTIONS');
@@ -59,9 +64,11 @@ export default function InterviewClient({
   useEffect(() => {
     const startInterview = async () => {
       try {
-        const { questions: fetchedQuestions } = await startInterviewAction(
-          interviewType
-        );
+        const { questions: fetchedQuestions } = await startInterviewAction({
+          interviewType,
+          difficulty,
+          numberOfQuestions,
+        });
         if (fetchedQuestions && fetchedQuestions.length > 0) {
           setQuestions(fetchedQuestions);
           setInterviewState('IN_PROGRESS');
@@ -81,7 +88,7 @@ export default function InterviewClient({
       }
     };
     startInterview();
-  }, [interviewType, toast]);
+  }, [interviewType, difficulty, numberOfQuestions, toast]);
 
   const handleGenerateFeedback = useCallback(async (finalAnswers: string[]) => {
     setInterviewState('GENERATING_FEEDBACK');
@@ -133,6 +140,7 @@ export default function InterviewClient({
     IN_PROGRESS: (
       <InProgressView
         interviewType={interviewType}
+        difficulty={difficulty}
         question={questions[currentQuestionIndex]}
         questionNumber={currentQuestionIndex + 1}
         totalQuestions={questions.length}
@@ -147,6 +155,7 @@ export default function InterviewClient({
     RESULTS: (
       <ResultsView
         interviewType={interviewType}
+        difficulty={difficulty}
         results={feedbackResults}
         onRestart={() => router.push('/')}
         t={t}
@@ -193,6 +202,7 @@ const LoadingView: FC = () => {
 
 const InProgressView: FC<{
   interviewType: string;
+  difficulty: string;
   question: string;
   questionNumber: number;
   totalQuestions: number;
@@ -203,6 +213,7 @@ const InProgressView: FC<{
   t: (key: string) => string;
 }> = ({
   interviewType,
+  difficulty,
   question,
   questionNumber,
   totalQuestions,
@@ -214,10 +225,13 @@ const InProgressView: FC<{
 }) => (
   <Card className="shadow-2xl">
     <CardHeader>
-      <div className="text-center mb-4">
-        <p className="font-semibold text-accent font-headline">
-          {interviewType} {t('interview')}
-        </p>
+      <div className="text-center mb-4 space-y-2">
+        <div className="flex justify-center items-center gap-4">
+          <p className="font-semibold text-accent font-headline">
+            {interviewType} {t('interview')}
+          </p>
+          <Badge variant="outline">{t(difficulty.toLowerCase())}</Badge>
+        </div>
         <CardTitle className="text-2xl font-bold mt-1 font-headline">
           {t('question')} {questionNumber} {t('of')} {totalQuestions}
         </CardTitle>
@@ -263,16 +277,20 @@ const FeedbackLoadingView: FC = () => {
 
 const ResultsView: FC<{
   interviewType: string;
+  difficulty: string;
   results: FeedbackResult[];
   onRestart: () => void;
   t: (key: string) => string;
-}> = ({ interviewType, results, onRestart, t }) => (
+}> = ({ interviewType, difficulty, results, onRestart, t }) => (
   <div className="space-y-8">
     <div className="text-center">
       <h1 className="text-4xl font-extrabold font-headline">{t('interviewReport')}</h1>
-      <p className="text-xl text-muted-foreground mt-2">
-        {t('role')}: <span className="font-semibold text-accent">{interviewType}</span>
-      </p>
+      <div className="flex justify-center items-center gap-4 mt-2">
+        <p className="text-xl text-muted-foreground">
+          {t('role')}: <span className="font-semibold text-accent">{interviewType}</span>
+        </p>
+        <Badge variant="outline">{t(difficulty.toLowerCase())}</Badge>
+      </div>
     </div>
     <Accordion type="single" collapsible className="w-full" defaultValue="item-0">
       {results.map((result, index) => (
