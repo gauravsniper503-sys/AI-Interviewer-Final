@@ -22,6 +22,8 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { Logo } from '@/components/logo';
 import { ArrowRight, Home, Loader2, Sparkles, Terminal } from 'lucide-react';
+import { useLanguage } from '@/context/language-context';
+import { LanguageSwitcher } from '../language-switcher';
 
 type InterviewState =
   | 'LOADING_QUESTIONS'
@@ -52,6 +54,7 @@ export default function InterviewClient({
 
   const { toast } = useToast();
   const router = useRouter();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const startInterview = async () => {
@@ -106,8 +109,8 @@ export default function InterviewClient({
     if (currentAnswer.trim() === '') {
       toast({
         variant: 'destructive',
-        title: 'Empty Answer',
-        description: 'Please provide an answer before proceeding.',
+        title: t('emptyAnswer'),
+        description: t('provideAnswer'),
       });
       return;
     }
@@ -137,6 +140,7 @@ export default function InterviewClient({
         currentAnswer={currentAnswer}
         setCurrentAnswer={setCurrentAnswer}
         handleNextQuestion={handleNextQuestion}
+        t={t}
       />
     ),
     GENERATING_FEEDBACK: <FeedbackLoadingView />,
@@ -145,9 +149,10 @@ export default function InterviewClient({
         interviewType={interviewType}
         results={feedbackResults}
         onRestart={() => router.push('/')}
+        t={t}
       />
     ),
-    ERROR: <ErrorView message={errorMessage} onRestart={() => router.push('/')} />,
+    ERROR: <ErrorView message={errorMessage} onRestart={() => router.push('/')} t={t} />,
   };
 
   return (
@@ -155,10 +160,13 @@ export default function InterviewClient({
       <header className="fixed top-0 left-0 right-0 z-10 bg-background/80 backdrop-blur-sm border-b">
         <div className="container mx-auto flex items-center justify-between h-16 px-4">
           <Logo />
-          <Button variant="ghost" onClick={() => router.push('/')}>
-            <Home className="mr-2 h-4 w-4" />
-            New Interview
-          </Button>
+          <div className='flex items-center'>
+            <LanguageSwitcher />
+            <Button variant="ghost" onClick={() => router.push('/')}>
+              <Home className="mr-2 h-4 w-4" />
+              {t('newInterview')}
+            </Button>
+          </div>
         </div>
       </header>
       <main className="pt-24 pb-12">
@@ -168,17 +176,20 @@ export default function InterviewClient({
   );
 }
 
-const LoadingView: FC = () => (
-  <div className="flex flex-col items-center justify-center text-center gap-4 py-10">
-    <Loader2 className="w-12 h-12 animate-spin text-primary" />
-    <h2 className="text-2xl font-headline font-semibold">
-      Preparing Your Interview...
-    </h2>
-    <p className="text-muted-foreground">
-      Our AI is crafting the perfect questions for you. Please wait a moment.
-    </p>
-  </div>
-);
+const LoadingView: FC = () => {
+  const { t } = useLanguage();
+  return(
+    <div className="flex flex-col items-center justify-center text-center gap-4 py-10">
+      <Loader2 className="w-12 h-12 animate-spin text-primary" />
+      <h2 className="text-2xl font-headline font-semibold">
+        {t('preparingInterview')}
+      </h2>
+      <p className="text-muted-foreground">
+        {t('craftingQuestions')}
+      </p>
+    </div>
+  )
+};
 
 const InProgressView: FC<{
   interviewType: string;
@@ -189,6 +200,7 @@ const InProgressView: FC<{
   currentAnswer: string;
   setCurrentAnswer: (answer: string) => void;
   handleNextQuestion: () => void;
+  t: (key: string) => string;
 }> = ({
   interviewType,
   question,
@@ -198,15 +210,16 @@ const InProgressView: FC<{
   currentAnswer,
   setCurrentAnswer,
   handleNextQuestion,
+  t
 }) => (
   <Card className="shadow-2xl">
     <CardHeader>
       <div className="text-center mb-4">
         <p className="font-semibold text-accent font-headline">
-          {interviewType} Interview
+          {interviewType} {t('interview')}
         </p>
         <CardTitle className="text-2xl font-bold mt-1 font-headline">
-          Question {questionNumber} of {totalQuestions}
+          {t('question')} {questionNumber} {t('of')} {totalQuestions}
         </CardTitle>
       </div>
       <Progress value={progress} className="w-full" />
@@ -216,7 +229,7 @@ const InProgressView: FC<{
         {question}
       </p>
       <Textarea
-        placeholder="Type your answer here..."
+        placeholder={t('typeAnswer')}
         value={currentAnswer}
         onChange={(e) => setCurrentAnswer(e.target.value)}
         rows={8}
@@ -225,7 +238,7 @@ const InProgressView: FC<{
       />
       <div className="flex justify-end">
         <Button onClick={handleNextQuestion} size="lg">
-          {questionNumber === totalQuestions ? 'Finish & Get Feedback' : 'Next Question'}
+          {questionNumber === totalQuestions ? t('finishAndGetFeedback') : t('nextQuestion')}
           <ArrowRight className="ml-2 w-4 h-4" />
         </Button>
       </div>
@@ -233,28 +246,32 @@ const InProgressView: FC<{
   </Card>
 );
 
-const FeedbackLoadingView: FC = () => (
-  <div className="flex flex-col items-center justify-center text-center gap-4 py-10">
-    <Loader2 className="w-12 h-12 animate-spin text-primary" />
-    <h2 className="text-2xl font-headline font-semibold">
-      Analyzing Your Answers...
-    </h2>
-    <p className="text-muted-foreground">
-      Our AI is generating personalized feedback. This will just take a moment.
-    </p>
-  </div>
-);
+const FeedbackLoadingView: FC = () => {
+  const {t} = useLanguage();
+  return (
+    <div className="flex flex-col items-center justify-center text-center gap-4 py-10">
+      <Loader2 className="w-12 h-12 animate-spin text-primary" />
+      <h2 className="text-2xl font-headline font-semibold">
+        {t('analyzingAnswers')}
+      </h2>
+      <p className="text-muted-foreground">
+        {t('generatingFeedback')}
+      </p>
+    </div>
+  )
+};
 
 const ResultsView: FC<{
   interviewType: string;
   results: FeedbackResult[];
   onRestart: () => void;
-}> = ({ interviewType, results, onRestart }) => (
+  t: (key: string) => string;
+}> = ({ interviewType, results, onRestart, t }) => (
   <div className="space-y-8">
     <div className="text-center">
-      <h1 className="text-4xl font-extrabold font-headline">Interview Report</h1>
+      <h1 className="text-4xl font-extrabold font-headline">{t('interviewReport')}</h1>
       <p className="text-xl text-muted-foreground mt-2">
-        Role: <span className="font-semibold text-accent">{interviewType}</span>
+        {t('role')}: <span className="font-semibold text-accent">{interviewType}</span>
       </p>
     </div>
     <Accordion type="single" collapsible className="w-full" defaultValue="item-0">
@@ -262,19 +279,20 @@ const ResultsView: FC<{
         <AccordionItem value={`item-${index}`} key={index}>
           <AccordionTrigger className="text-left hover:no-underline">
             <span className="font-semibold md:text-lg">
-              Q{index + 1}: {result.question}
+              {t('q')}
+              {index + 1}: {result.question}
             </span>
           </AccordionTrigger>
           <AccordionContent className="space-y-6 pt-4">
             <div>
-              <h4 className="font-semibold text-muted-foreground mb-2">Your Answer:</h4>
+              <h4 className="font-semibold text-muted-foreground mb-2">{t('yourAnswer')}:</h4>
               <p className="p-4 bg-muted/50 rounded-md whitespace-pre-wrap">
                 {result.answer}
               </p>
             </div>
             <div>
               <h4 className="font-semibold text-accent mb-2 flex items-center gap-2">
-                <Sparkles className="w-5 h-5" /> AI Feedback:
+                <Sparkles className="w-5 h-5" /> {t('aiFeedback')}:
               </h4>
               <div className="p-4 border-l-4 border-accent bg-accent/10 rounded-r-md whitespace-pre-wrap">
                 {result.feedback}
@@ -286,23 +304,24 @@ const ResultsView: FC<{
     </Accordion>
     <div className="flex justify-center mt-8">
       <Button onClick={onRestart} size="lg">
-        Start New Interview
+        {t('startNewInterview')}
       </Button>
     </div>
   </div>
 );
 
-const ErrorView: FC<{ message: string; onRestart: () => void }> = ({
+const ErrorView: FC<{ message: string; onRestart: () => void; t: (key: string) => string; }> = ({
   message,
   onRestart,
+  t
 }) => (
   <Alert variant="destructive" className="max-w-2xl mx-auto">
     <Terminal className="h-4 w-4" />
-    <AlertTitle>An Error Occurred</AlertTitle>
+    <AlertTitle>{t('errorOccurred')}</AlertTitle>
     <AlertDescription>{message}</AlertDescription>
     <div className="mt-4">
       <Button variant="destructive" onClick={onRestart}>
-        Try Again
+        {t('tryAgain')}
       </Button>
     </div>
   </Alert>

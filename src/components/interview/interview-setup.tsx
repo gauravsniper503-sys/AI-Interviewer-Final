@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { useLanguage } from '@/context/language-context';
 
 type PredefinedType = {
   name: string;
@@ -19,6 +20,7 @@ export function InterviewSetup({
 }) {
   const [customType, setCustomType] = useState('');
   const router = useRouter();
+  const { t } = useLanguage();
 
   const handleSelectType = (type: string) => {
     if (type.trim()) {
@@ -29,7 +31,7 @@ export function InterviewSetup({
   return (
     <div>
       <h2 className="text-center text-xl font-semibold mb-6 text-foreground">
-        Choose a preset role
+        {t('choosePresetRole')}
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {predefinedTypes.map((type) => (
@@ -52,7 +54,7 @@ export function InterviewSetup({
 
       <Card className="p-6 shadow-lg bg-card/80">
         <p className="text-center font-semibold text-lg mb-4 text-card-foreground">
-          Or create a custom interview
+          {t('createCustomInterview')}
         </p>
         <form
           onSubmit={(e) => {
@@ -63,14 +65,14 @@ export function InterviewSetup({
         >
           <Input
             type="text"
-            placeholder="e.g., 'Civil Engineer for a bridge project'"
+            placeholder={t('customInterviewPlaceholder')}
             value={customType}
             onChange={(e) => setCustomType(e.target.value)}
             className="flex-grow text-base"
           />
           <Button type="submit" disabled={!customType.trim()}>
             <Sparkles className="mr-2 h-4 w-4" />
-            Start Custom Interview
+            {t('startCustomInterview')}
           </Button>
         </form>
       </Card>
