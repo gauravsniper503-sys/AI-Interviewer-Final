@@ -70,7 +70,7 @@ export function InterviewSetup({
         </div>
 
         <Separator className="my-6" />
-        
+
         <div>
           <Label className="text-center text-xl font-semibold mb-6 text-foreground block">
             {t('createCustomInterview')}
