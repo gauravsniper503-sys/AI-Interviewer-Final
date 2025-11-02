@@ -1,7 +1,7 @@
 'use client';
 import { InterviewSetup } from '@/components/interview/interview-setup';
 import { Logo } from '@/components/logo';
-import { Cpu, Bot, PenTool, BarChart, Code } from 'lucide-react';
+import { Cpu, Bot, Laptop, User } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { LanguageSwitcher } from '@/components/language-switcher';
 
@@ -9,9 +9,8 @@ export default function Home() {
   const { t } = useLanguage();
   const interviewTypes = [
     { name: t('softwareEngineer'), icon: <Cpu className="w-8 h-8" /> },
-    { name: t('productDesigner'), icon: <PenTool className="w-8 h-8" /> },
-    { name: t('dataAnalyst'), icon: <BarChart className="w-8 h-8" /> },
-    { name: t('frontendDeveloper'), icon: <Code className="w-8 h-8" /> },
+    { name: t('itEngineer'), icon: <Laptop className="w-8 h-8" /> },
+    { name: t('12thStudent'), icon: <User className="w-8 h-8" /> },
   ];
 
   return (
