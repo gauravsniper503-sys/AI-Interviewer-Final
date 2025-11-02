@@ -4,6 +4,7 @@ import { Logo } from '@/components/logo';
 import { Cpu, Bot, Laptop, User } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { LanguageSwitcher } from '@/components/language-switcher';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 export default function Home() {
   const { t } = useLanguage();
@@ -17,7 +18,10 @@ export default function Home() {
     <main className="flex flex-col min-h-screen bg-background p-4 sm:p-6 lg:p-8">
       <header className="flex justify-between items-center w-full max-w-7xl mx-auto">
         <Logo />
-        <LanguageSwitcher />
+        <div className="flex items-center gap-2">
+          <LanguageSwitcher />
+          <ThemeToggle />
+        </div>
       </header>
       <div className="flex-grow flex flex-col items-center justify-center">
         <div className="w-full max-w-4xl">

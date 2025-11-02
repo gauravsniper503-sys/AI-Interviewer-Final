@@ -25,6 +25,7 @@ import { ArrowRight, Home, Loader2, Sparkles, Terminal } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { LanguageSwitcher } from '../language-switcher';
 import { Badge } from '../ui/badge';
+import { ThemeToggle } from '../theme-toggle';
 
 type InterviewState =
   | 'LOADING_QUESTIONS'
@@ -169,8 +170,9 @@ export default function InterviewClient({
       <header className="fixed top-0 left-0 right-0 z-10 bg-background/80 backdrop-blur-sm border-b">
         <div className="container mx-auto flex items-center justify-between h-16 px-4">
           <Logo />
-          <div className='flex items-center'>
+          <div className='flex items-center gap-2'>
             <LanguageSwitcher />
+            <ThemeToggle />
             <Button variant="ghost" onClick={() => router.push('/')}>
               <Home className="mr-2 h-4 w-4" />
               {t('newInterview')}
