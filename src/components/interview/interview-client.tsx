@@ -58,6 +58,7 @@ export default function InterviewClient({
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentAnswer, setCurrentAnswer] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [feedbackGeneratingIndex, setFeedbackGeneratingIndex] = useState(0);
 
   const { toast } = useToast();
   const router = useRouter();
@@ -95,17 +96,19 @@ export default function InterviewClient({
   const handleGenerateFeedback = useCallback(async (finalAnswers: string[]) => {
     setInterviewState('GENERATING_FEEDBACK');
     try {
-      const feedbackPromises = questions.map((question, index) =>
-        getFeedbackAction(question, finalAnswers[index], interviewType)
-      );
-      const results = await Promise.all(feedbackPromises);
-      setFeedbackResults(results);
+      const results: FeedbackResult[] = [];
+      for (let i = 0; i < questions.length; i++) {
+        setFeedbackGeneratingIndex(i);
+        const result = await getFeedbackAction(questions[i], finalAnswers[i], interviewType);
+        results.push(result);
+        setFeedbackResults([...results]);
+      }
       setInterviewState('RESULTS');
     } catch (error) {
       setErrorMessage(
         'Failed to generate feedback. You can still see your answers below.'
       );
-      setInterviewState('ERROR');
+      setInterviewState('RESULTS'); // Show partial results even if one fails
       toast({
         variant: 'destructive',
         title: 'Feedback Error',
@@ -153,7 +156,18 @@ export default function InterviewClient({
         t={t}
       />
     ),
-    GENERATING_FEEDBACK: <FeedbackLoadingView />,
+    GENERATING_FEEDBACK: (
+      <ResultsView
+        interviewType={interviewType}
+        difficulty={difficulty}
+        results={feedbackResults}
+        onRestart={() => router.push('/')}
+        t={t}
+        isGeneratingFeedback={true}
+        generatingIndex={feedbackGeneratingIndex}
+        totalQuestions={questions.length}
+      />
+    ),
     RESULTS: (
       <ResultsView
         interviewType={interviewType}
@@ -161,6 +175,7 @@ export default function InterviewClient({
         results={feedbackResults}
         onRestart={() => router.push('/')}
         t={t}
+        isGeneratingFeedback={false}
       />
     ),
     ERROR: <ErrorView message={errorMessage} onRestart={() => router.push('/')} t={t} />,
@@ -263,8 +278,7 @@ const InProgressView: FC<{
   </Card>
 );
 
-const FeedbackLoadingView: FC = () => {
-  const {t} = useLanguage();
+const FeedbackLoadingView: FC<{ generatingIndex: number; totalQuestions: number; t: (key: string) => string }> = ({ generatingIndex, totalQuestions, t }) => {
   return (
     <div className="flex flex-col items-center justify-center text-center gap-4 py-10">
       <Loader2 className="w-12 h-12 animate-spin text-primary" />
@@ -272,7 +286,7 @@ const FeedbackLoadingView: FC = () => {
         {t('analyzingAnswers')}
       </h2>
       <p className="text-muted-foreground">
-        {t('generatingFeedback')}
+        {t('generatingFeedbackFor')} {generatingIndex + 1} / {totalQuestions}
       </p>
     </div>
   )
@@ -284,7 +298,10 @@ const ResultsView: FC<{
   results: FeedbackResult[];
   onRestart: () => void;
   t: (key: string) => string;
-}> = ({ interviewType, difficulty, results, onRestart, t }) => (
+  isGeneratingFeedback: boolean;
+  generatingIndex?: number;
+  totalQuestions?: number;
+}> = ({ interviewType, difficulty, results, onRestart, t, isGeneratingFeedback, generatingIndex = 0, totalQuestions = 0 }) => (
   <div className="space-y-8">
     <div className="text-center">
       <h1 className="text-4xl font-extrabold font-headline">{t('interviewReport')}</h1>
@@ -295,7 +312,17 @@ const ResultsView: FC<{
         <Badge variant="outline">{t(difficulty.toLowerCase())}</Badge>
       </div>
     </div>
-    <Accordion type="single" collapsible className="w-full" defaultValue="item-0">
+
+    {isGeneratingFeedback && (
+      <div className="flex flex-col items-center justify-center text-center gap-4 py-6">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        <p className="text-muted-foreground">
+          {t('generatingFeedbackFor')} {generatingIndex + 1} / {totalQuestions}
+        </p>
+      </div>
+    )}
+
+    <Accordion type="single" collapsible className="w-full" defaultValue={isGeneratingFeedback ? undefined : "item-0"}>
       {results.map((result, index) => (
         <AccordionItem value={`item-${index}`} key={index}>
           <AccordionTrigger className="text-left hover:no-underline">
@@ -331,11 +358,14 @@ const ResultsView: FC<{
         </AccordionItem>
       ))}
     </Accordion>
-    <div className="flex justify-center mt-8">
-      <Button onClick={onRestart} size="lg">
-        {t('startNewInterview')}
-      </Button>
-    </div>
+
+    {!isGeneratingFeedback && (
+      <div className="flex justify-center mt-8">
+        <Button onClick={onRestart} size="lg">
+          {t('startNewInterview')}
+        </Button>
+      </div>
+    )}
   </div>
 );
 
