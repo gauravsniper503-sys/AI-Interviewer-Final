@@ -49,7 +49,7 @@ export function InterviewSetup({
           <h2 className="text-center text-xl font-semibold mb-6 text-foreground">
             {t('choosePresetRole')}
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             {predefinedTypes.map((type) => (
               <Card
                 key={type.name}
