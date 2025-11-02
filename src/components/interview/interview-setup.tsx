@@ -10,6 +10,7 @@ import { useLanguage } from '@/context/language-context';
 import { Label } from '../ui/label';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
 import { Slider } from '../ui/slider';
+import { Separator } from '../ui/separator';
 
 type PredefinedType = {
   name: string;
@@ -23,7 +24,7 @@ export function InterviewSetup({
 }) {
   const [customType, setCustomType] = useState('');
   const [difficulty, setDifficulty] = useState('Medium');
-  const [numQuestions, setNumQuestions] = useState('8');
+  const [numQuestions, setNumQuestions] = useState('10');
   const [customNumQuestions, setCustomNumQuestions] = useState(8);
 
   const router = useRouter();
@@ -42,51 +43,56 @@ export function InterviewSetup({
   };
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h2 className="text-center text-xl font-semibold mb-6 text-foreground">
-          {t('choosePresetRole')}
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {predefinedTypes.map((type) => (
-            <Card
-              key={type.name}
-              onClick={() => handleStartInterview(type.name)}
-              className="cursor-pointer hover:shadow-xl hover:border-primary/50 transition-all duration-300 group bg-card/50 backdrop-blur-sm"
-            >
-              <CardContent className="flex flex-col items-center justify-center p-6">
-                <div className="text-primary group-hover:text-accent group-hover:scale-110 transition-all duration-300 mb-3">
-                  {type.icon}
-                </div>
-                <p className="font-semibold text-center text-card-foreground">
-                  {type.name}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
+    <Card className="p-6 shadow-lg bg-card/80 w-full max-w-2xl mx-auto">
+      <div className="space-y-8">
+        <div>
+          <h2 className="text-center text-xl font-semibold mb-6 text-foreground">
+            {t('choosePresetRole')}
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {predefinedTypes.map((type) => (
+              <Card
+                key={type.name}
+                onClick={() => handleStartInterview(type.name)}
+                className="cursor-pointer hover:shadow-xl hover:border-primary/50 transition-all duration-300 group bg-card/50 backdrop-blur-sm"
+              >
+                <CardContent className="flex items-center justify-start p-4">
+                  <div className="text-primary group-hover:text-accent group-hover:scale-110 transition-all duration-300 mr-4">
+                    {type.icon}
+                  </div>
+                  <p className="font-semibold text-card-foreground">
+                    {type.name}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <Card className="p-6 shadow-lg bg-card/80">
-        <p className="text-center font-semibold text-lg mb-4 text-card-foreground">
-          {t('createCustomInterview')}
-        </p>
-        <div className="flex flex-col sm:flex-row gap-3 mb-6">
-          <Input
-            type="text"
-            placeholder={t('customInterviewPlaceholder')}
-            value={customType}
-            onChange={(e) => setCustomType(e.target.value)}
-            className="flex-grow text-base"
-          />
-          <Button
-            type="button"
-            onClick={() => handleStartInterview(customType)}
-            disabled={!customType.trim()}
-          >
-            <Sparkles className="mr-2 h-4 w-4" />
-            {t('startCustomInterview')}
-          </Button>
+        <div className="flex items-center text-muted-foreground">
+          <Separator className="flex-grow" />
+          <span className="mx-4 text-sm">{t('createCustomInterview')}</span>
+          <Separator className="flex-grow" />
+        </div>
+
+        <div>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Input
+              type="text"
+              placeholder={t('customInterviewPlaceholder')}
+              value={customType}
+              onChange={(e) => setCustomType(e.target.value)}
+              className="flex-grow text-base"
+            />
+            <Button
+              type="button"
+              onClick={() => handleStartInterview(customType)}
+              disabled={!customType.trim()}
+            >
+              <Sparkles className="mr-2 h-4 w-4" />
+              {t('startCustomInterview')}
+            </Button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -143,7 +149,7 @@ export function InterviewSetup({
             )}
           </div>
         </div>
-      </Card>
-    </div>
+      </div>
+    </Card>
   );
 }
