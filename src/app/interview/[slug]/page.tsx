@@ -2,7 +2,6 @@ import InterviewClient from '@/components/interview/interview-client';
 import { Suspense } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Logo } from '@/components/logo';
 
 export default function InterviewPage({
   params,
@@ -36,7 +35,9 @@ function InterviewSkeleton() {
       <div className="w-full max-w-3xl space-y-8 animate-pulse">
         <header className="fixed top-0 left-0 right-0 z-10 bg-background/80 backdrop-blur-sm border-b">
           <div className="container mx-auto flex items-center justify-between h-16 px-4">
-            <Logo />
+            <h1 className="text-2xl font-bold text-foreground font-sans">
+              Interview Pro
+            </h1>
             <Skeleton className="h-9 w-36" />
           </div>
         </header>

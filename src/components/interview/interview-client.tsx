@@ -20,8 +20,7 @@ import {
   AlertTitle,
 } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Logo } from '@/components/logo';
-import { ArrowRight, Home, Loader2, Sparkles, Terminal, BookCheck, Mic } from 'lucide-react';
+import { ArrowRight, Home, Loader2, Sparkles, Terminal, BookCheck, Mic, Bot } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { LanguageSwitcher } from '../language-switcher';
 import { Badge } from '../ui/badge';
@@ -185,7 +184,11 @@ export default function InterviewClient({
     <>
       <header className="fixed top-0 left-0 right-0 z-10 bg-background/80 backdrop-blur-sm border-b">
         <div className="container mx-auto flex items-center justify-between h-16 px-4">
-          <Logo />
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-foreground font-sans">
+              Interview Pro
+            </h1>
+          </div>
           <div className='flex items-center gap-2'>
             <LanguageSwitcher />
             <ThemeToggle />

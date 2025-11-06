@@ -1,7 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { InterviewSetup } from '@/components/interview/interview-setup';
-import { Logo } from '@/components/logo';
 import { Cpu, Bot, Laptop, User } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { LanguageSwitcher } from '@/components/language-switcher';
@@ -40,7 +39,11 @@ export default function Home() {
   return (
     <main className="flex flex-col min-h-screen bg-background p-4 sm:p-6 lg:p-8 animate-fade-in">
       <header className="flex justify-between items-center w-full max-w-7xl mx-auto">
-        <Logo />
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-foreground font-sans">
+            Interview Pro
+          </h1>
+        </div>
         <div className="flex items-center gap-2">
           <LanguageSwitcher />
           <ThemeToggle />
