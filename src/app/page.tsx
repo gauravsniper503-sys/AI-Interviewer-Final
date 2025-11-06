@@ -40,6 +40,9 @@ export default function Home() {
     <main className="flex flex-col min-h-screen bg-background p-4 sm:p-6 lg:p-8 animate-fade-in">
       <header className="flex justify-between items-center w-full max-w-7xl mx-auto">
         <div className="flex items-center gap-2">
+          <div className="bg-primary text-primary-foreground p-2 rounded-lg">
+            <Bot className="w-6 h-6" />
+          </div>
           <h1 className="text-2xl font-bold text-foreground font-sans">
             Interview Pro
           </h1>
