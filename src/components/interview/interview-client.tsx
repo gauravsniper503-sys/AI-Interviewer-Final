@@ -265,6 +265,12 @@ const InProgressView: FC<{
           placeholder={t('typeAnswer')}
           value={currentAnswer}
           onChange={(e) => setCurrentAnswer(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              handleNextQuestion();
+            }
+          }}
           rows={8}
           className="text-base"
           autoFocus
