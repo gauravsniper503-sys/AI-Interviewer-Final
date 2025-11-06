@@ -40,11 +40,6 @@ export default function Home() {
     <main className="flex flex-col min-h-screen bg-background p-4 sm:p-6 lg:p-8 animate-fade-in">
       <header className="flex justify-between items-center w-full max-w-7xl mx-auto">
         <div className="flex items-center gap-2">
-          <img
-            src="/icons/icon-192x192.png"
-            alt="Interview Pro Logo"
-            className="w-10 h-10"
-          />
           <h1 className="text-2xl font-bold text-foreground font-sans">
             Interview Pro
           </h1>

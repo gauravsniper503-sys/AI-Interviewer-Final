@@ -7,7 +7,6 @@ import { ThemeProvider } from '@/context/theme-context';
 export const metadata: Metadata = {
   title: 'Interview Pro',
   description: 'Sharpen your interview skills with AI.',
-  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
@@ -18,7 +17,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <meta name="theme-color" content="#000000" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
